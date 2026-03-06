@@ -1,17 +1,14 @@
-from passlib.context import CryptContext
-import hashlib
-
-pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto"
-)
+import bcrypt
 
 def hash_password(password: str) -> str:
-    # Pre-hash with SHA256 to handle passwords > 72 bytes
-    password_hash = hashlib.sha256(password.encode()).hexdigest()
-    return pwd_context.hash(password_hash)
+    """Hash a password using bcrypt."""
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    return hashed.decode('utf-8')
 
 def verify_password(password: str, hashed: str) -> bool:
-    # Pre-hash with SHA256 to match the stored hash
-    password_hash = hashlib.sha256(password.encode()).hexdigest()
-    return pwd_context.verify(password_hash, hashed)
+    """Verify a password against a hash."""
+    password_bytes = password.encode('utf-8')
+    hashed_bytes = hashed.encode('utf-8')
+    return bcrypt.checkpw(password_bytes, hashed_bytes)
