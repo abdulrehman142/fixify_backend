@@ -1,10 +1,9 @@
 fastapi
 uvicorn[standard]
 python-dotenv
-pydantic[email]
+pydantic
 SQLAlchemy
 pymysql
 passlib[bcrypt]
-python-jose[cryptography]
+python-jose
 pydantic-settings
-email-validator
