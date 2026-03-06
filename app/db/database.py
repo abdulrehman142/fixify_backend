@@ -2,10 +2,11 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Get DATABASE_URL from environment or use default
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:tomojelly@localhost:3306/SdaProjectDb")
 
 # Use pymysql driver if mysql:// is specified
-if DATABASE_URL and DATABASE_URL.startswith("mysql://"):
+if DATABASE_URL.startswith("mysql://"):
     DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
 
 engine = create_engine(
