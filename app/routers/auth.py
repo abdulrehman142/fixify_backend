@@ -33,7 +33,7 @@ def register_provider(payload: ProviderRegisterRequest, db: Session = Depends(ge
     user = auth_service.register_provider(payload)
     
     # Get the provider profile
-    from repositories.provider_repository import ProviderRepository
+    from app.repositories.provider_repository import ProviderRepository
     provider_repo = ProviderRepository()
     provider = provider_repo.get_by_user_id(db, user.id)
     
