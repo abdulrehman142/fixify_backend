@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from db.models import Review
+from app.db.models import Review
 from typing import Optional, List
-from db.schemas import ReviewCreateRequest
+from app.db.schemas import ReviewCreateRequest
 
 
 class ReviewRepository:

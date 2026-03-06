@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import Message, Order, User
-from db.schemas import MessageCreateRequest, MessageResponse
-from repositories.message_repository import MessageRepository
-from repositories.order_repository import OrderRepository
-from repositories.provider_repository import ProviderRepository
+from app.db.models import Message, Order, User
+from app.db.schemas import MessageCreateRequest, MessageResponse
+from app.repositories.message_repository import MessageRepository
+from app.repositories.order_repository import OrderRepository
+from app.repositories.provider_repository import ProviderRepository
 
 
 class MessageService:

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from db.models import Contact
-from db.schemas import ContactCreateRequest, ContactResponse
-from repositories.contact_repository import ContactRepository
+from app.db.models import Contact
+from app.db.schemas import ContactCreateRequest, ContactResponse
+from app.repositories.contact_repository import ContactRepository
 
 
 class ContactService:

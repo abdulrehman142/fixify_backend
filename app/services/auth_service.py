@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import User
-from db.schemas import CustomerRegisterRequest, ProviderRegisterRequest, LoginRequest, TokenResponse
-from repositories.user_repository import UserRepository
-from repositories.provider_repository import ProviderRepository
-from utils.hashing import hash_password, verify_password
-from core.security import create_access_token
+from app.db.models import User
+from app.db.schemas import CustomerRegisterRequest, ProviderRegisterRequest, LoginRequest, TokenResponse
+from app.repositories.user_repository import UserRepository
+from app.repositories.provider_repository import ProviderRepository
+from app.utils.hashing import hash_password, verify_password
+from app.core.security import create_access_token
 
 
 class AuthService:

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from db.models import ServiceProvider, User
+from app.db.models import ServiceProvider, User
 from typing import Optional, List
-from db.schemas import ProviderProfileUpdate
+from app.db.schemas import ProviderProfileUpdate
 
 
 class ProviderRepository:

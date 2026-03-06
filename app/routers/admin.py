@@ -1,19 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from db.database import get_db
-from db.models import User
-from utils.hashing import hash_password
-from core.dependencies import require_admin
-from db.schemas import (
+from app.db.database import get_db
+from app.db.models import User
+from app.utils.hashing import hash_password
+from app.core.dependencies import require_admin
+from app.db.schemas import (
     CreateUserRequest, UpdateUserRequest, ProviderListResponse, 
     OrderListResponse, StatsResponse, ProviderApprovalRequest,
     CustomerListItem, ProviderStatsDetail, CustomerStatsDetail, ContactResponse
 )
-from repositories.provider_repository import ProviderRepository
-from repositories.order_repository import OrderRepository
-from repositories.user_repository import UserRepository
-from services.order_service import OrderService
-from services.contact_service import ContactService
+from app.repositories.provider_repository import ProviderRepository
+from app.repositories.order_repository import OrderRepository
+from app.repositories.user_repository import UserRepository
+from app.services.order_service import OrderService
+from app.services.contact_service import ContactService
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

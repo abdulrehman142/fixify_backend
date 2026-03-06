@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db.models import Contact
+from app.db.models import Contact
 from typing import List
 
 

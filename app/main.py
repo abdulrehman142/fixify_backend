@@ -2,9 +2,9 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
-from db.models import Base
-from db.database import engine
-from routers import (
+from app.db.models import Base
+from app.db.database import engine
+from app.routers import (
     auth, admin, customer, provider, order, review, contact, message
 )
 

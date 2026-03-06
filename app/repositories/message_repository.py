@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db.models import Message
+from app.db.models import Message
 from typing import Optional, List
 
 

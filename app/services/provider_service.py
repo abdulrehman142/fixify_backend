@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import ServiceProvider
-from db.schemas import ProviderResponse, ProviderProfileUpdate
-from repositories.provider_repository import ProviderRepository
-from repositories.user_repository import UserRepository
+from app.db.models import ServiceProvider
+from app.db.schemas import ProviderResponse, ProviderProfileUpdate
+from app.repositories.provider_repository import ProviderRepository
+from app.repositories.user_repository import UserRepository
 
 
 class ProviderService:

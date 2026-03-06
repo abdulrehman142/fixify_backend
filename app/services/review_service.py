@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import Review, Order
-from db.schemas import ReviewCreateRequest, ReviewResponse
-from repositories.review_repository import ReviewRepository
-from repositories.order_repository import OrderRepository
+from app.db.models import Review, Order
+from app.db.schemas import ReviewCreateRequest, ReviewResponse
+from app.repositories.review_repository import ReviewRepository
+from app.repositories.order_repository import OrderRepository
 
 
 class ReviewService:

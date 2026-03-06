@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import Order
-from db.schemas import OrderCreateRequest, OrderResponse, OrderUpdateRequest
-from repositories.order_repository import OrderRepository
-from repositories.provider_repository import ProviderRepository
-from utils.order_number import generate_order_number
-from utils.service_mapper import get_service_category
-from services.provider_service import ProviderService
+from app.db.models import Order
+from app.db.schemas import OrderCreateRequest, OrderResponse, OrderUpdateRequest
+from app.repositories.order_repository import OrderRepository
+from app.repositories.provider_repository import ProviderRepository
+from app.utils.order_number import generate_order_number
+from app.utils.service_mapper import get_service_category
+from app.services.provider_service import ProviderService
 
 
 class OrderService:

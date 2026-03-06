@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from db.database import get_db
-from db.schemas import ContactCreateRequest, ContactResponse
-from services.contact_service import ContactService
+from app.db.database import get_db
+from app.db.schemas import ContactCreateRequest, ContactResponse
+from app.services.contact_service import ContactService
 
 router = APIRouter(prefix="/contact", tags=["Contact"])
 

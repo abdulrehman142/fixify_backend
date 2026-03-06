@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from db.models import Order
+from app.db.models import Order
 from typing import Optional, List, Union
 from datetime import date, time
-from db.schemas import OrderCreateRequest, OrderUpdateRequest
+from app.db.schemas import OrderCreateRequest, OrderUpdateRequest
 
 
 class OrderRepository:

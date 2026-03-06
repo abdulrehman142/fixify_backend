@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
-from db.models import Order
+from app.db.models import Order
 
 
 def generate_order_number(db: Session) -> str:

@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from db.models import User
-from db.schemas import CustomerProfileUpdate, CustomerResponse
-from repositories.user_repository import UserRepository
+from app.db.models import User
+from app.db.schemas import CustomerProfileUpdate, CustomerResponse
+from app.repositories.user_repository import UserRepository
 
 
 class CustomerService:
