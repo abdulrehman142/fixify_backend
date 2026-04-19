@@ -229,6 +229,9 @@ pytest
 - Verify MySQL server is running
 - Check DATABASE_URL in `.env` file
 - Ensure the database `SdaProjectDb` exists
+- For Aiven on Render, set a valid `DATABASE_URL` env var with the real password
+- Optional timeout overrides: `DB_CONNECT_TIMEOUT`, `DB_READ_TIMEOUT`, `DB_WRITE_TIMEOUT`
+- Optional TLS CA override: `MYSQL_SSL_CA` (defaults to `/etc/ssl/certs/ca-certificates.crt`)
 
 ### Admin Creation Issues
 - Ensure no admin with the same username/email exists
