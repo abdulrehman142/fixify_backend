@@ -28,8 +28,15 @@ if DATABASE_URL and DATABASE_URL.startswith("mysql+pymysql://"):
 
     # Enable TLS by default for Aiven-hosted databases on production platforms.
     if db_host.endswith("aivencloud.com"):
-        ca_path = os.getenv("MYSQL_SSL_CA", "/etc/ssl/certs/ca-certificates.crt")
-        connect_args["ssl"] = {"ca": ca_path}
+        ca_candidates = [
+            os.getenv("MYSQL_SSL_CA", ""),
+            "/etc/ssl/certs/ca-certificates.crt",
+            "/etc/ssl/cert.pem",
+            "/etc/pki/tls/certs/ca-bundle.crt",
+        ]
+        ca_path = next((path for path in ca_candidates if path and os.path.exists(path)), None)
+        if ca_path:
+            connect_args["ssl"] = {"ca": ca_path}
 
 engine = create_engine(
     DATABASE_URL,

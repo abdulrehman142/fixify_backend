@@ -1,12 +1,19 @@
+import logging
+import os
+import time
+
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
+from sqlalchemy.exc import OperationalError
 from app.db.models import Base
 from app.db.database import engine
 from app.routers import (
     auth, admin, customer, provider, order, review, contact, message
 )
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Fixify API",
@@ -27,8 +34,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Create tables if they don't exist
-Base.metadata.create_all(bind=engine)
+def _initialize_database_with_retry() -> None:
+    """Create tables with retry to tolerate transient cloud DB startup failures."""
+    max_retries = int(os.getenv("DB_INIT_MAX_RETRIES", "5"))
+    delay_seconds = float(os.getenv("DB_INIT_RETRY_DELAY", "2"))
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            Base.metadata.create_all(bind=engine)
+            logger.info("Database initialization completed")
+            return
+        except OperationalError as exc:
+            if attempt == max_retries:
+                raise
+            logger.warning(
+                "Database init failed (attempt %s/%s): %s. Retrying in %.1fs",
+                attempt,
+                max_retries,
+                exc,
+                delay_seconds,
+            )
+            time.sleep(delay_seconds)
+
+
+@app.on_event("startup")
+def startup_event() -> None:
+    _initialize_database_with_retry()
 
 # Error handlers
 @app.exception_handler(RequestValidationError)
