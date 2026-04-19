@@ -10,8 +10,8 @@ DATABASE_URL = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 if DATABASE_URL and DATABASE_URL.startswith("mysql://"):
     DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
 
-# Base directory for locating certificate files
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Project root for locating certificate files
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 connect_args = {
     "connect_timeout": int(os.getenv("DB_CONNECT_TIMEOUT", "30")),
@@ -20,7 +20,7 @@ connect_args = {
 }
 
 # Configure SSL for cloud-hosted MySQL databases
-ca_pem_path = os.path.join(BASE_DIR, "ca.pem")
+ca_pem_path = os.path.join(PROJECT_ROOT, "ca.pem")
 if os.path.exists(ca_pem_path):
     connect_args["ssl"] = {
         "ca": ca_pem_path
