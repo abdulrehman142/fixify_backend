@@ -74,8 +74,12 @@ class AuthService:
     
     def login(self, request: LoginRequest) -> TokenResponse:
         """Authenticate user and return JWT token."""
-        # Try to find user by email
-        user = self.user_repo.get_by_email(self.db, request.email)
+        identifier = request.email.strip()
+
+        # Accept either email or username for login.
+        user = self.user_repo.get_by_email(self.db, identifier)
+        if not user:
+            user = self.user_repo.get_by_username(self.db, identifier)
         
         if not user:
             raise HTTPException(

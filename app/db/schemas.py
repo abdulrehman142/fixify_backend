@@ -6,7 +6,7 @@ from decimal import Decimal
 # ==================== Auth Schemas ====================
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 class TokenResponse(BaseModel):

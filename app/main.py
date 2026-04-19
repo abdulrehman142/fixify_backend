@@ -37,7 +37,7 @@ app.add_middleware(
 )
 
 DEFAULT_ADMIN_USERNAME = "admin@fixify"
-DEFAULT_ADMIN_EMAIL = "admin@fixify"
+DEFAULT_ADMIN_EMAIL = "admin@fixify.com"
 DEFAULT_ADMIN_PASSWORD = "rehman@16@"
 
 def _initialize_database_with_retry() -> None:
