@@ -98,13 +98,12 @@ app/
    - Create a `.env` file in the `app` directory
    - Set the following variables:
    ```env
-   DATABASE_URL=mysql+pymysql://username:password@localhost:3306/SdaProjectDb
+   DATABASE_URL=mysql+pymysql://avnadmin:<password>@fixifydb-abdulrehmantahir142-8b09.g.aivencloud.com:10231/defaultdb
    SECRET_KEY=your-secret-key-here
    ALGORITHM=HS256
    ACCESS_TOKEN_EXPIRE_MINUTES=60
    ```
-   - Replace `username` and `password` with your MySQL credentials
-   - Create the database `SdaProjectDb` in MySQL if it doesn't exist
+   - Replace the connection string if you use a different database instance
 
 4. **Create an admin user:**
    ```bash

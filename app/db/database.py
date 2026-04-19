@@ -2,7 +2,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+from app.core.config import settings
+
+DATABASE_URL = os.getenv("DATABASE_URL", settings.DATABASE_URL)
 
 # Use pymysql driver if mysql:// is specified
 if DATABASE_URL and DATABASE_URL.startswith("mysql://"):
