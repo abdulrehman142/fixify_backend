@@ -1,4 +1,5 @@
 import os
+import certifi
 from sqlalchemy import create_engine
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
@@ -30,6 +31,7 @@ if DATABASE_URL and DATABASE_URL.startswith("mysql+pymysql://"):
     if db_host.endswith("aivencloud.com"):
         ca_candidates = [
             os.getenv("MYSQL_SSL_CA", ""),
+            certifi.where(),
             "/etc/ssl/certs/ca-certificates.crt",
             "/etc/ssl/cert.pem",
             "/etc/pki/tls/certs/ca-bundle.crt",

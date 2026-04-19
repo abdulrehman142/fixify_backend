@@ -38,6 +38,7 @@ def _initialize_database_with_retry() -> None:
     """Create tables with retry to tolerate transient cloud DB startup failures."""
     max_retries = int(os.getenv("DB_INIT_MAX_RETRIES", "5"))
     delay_seconds = float(os.getenv("DB_INIT_RETRY_DELAY", "2"))
+    require_db_on_startup = os.getenv("DB_INIT_REQUIRED", "false").lower() == "true"
 
     for attempt in range(1, max_retries + 1):
         try:
@@ -46,7 +47,14 @@ def _initialize_database_with_retry() -> None:
             return
         except OperationalError as exc:
             if attempt == max_retries:
-                raise
+                if require_db_on_startup:
+                    raise
+                logger.error(
+                    "Database init failed after %s attempts; continuing startup because DB_INIT_REQUIRED is false: %s",
+                    max_retries,
+                    exc,
+                )
+                return
             logger.warning(
                 "Database init failed (attempt %s/%s): %s. Retrying in %.1fs",
                 attempt,
