@@ -8,7 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import OperationalError
 from app.db.models import Base
-from app.db.database import engine
+from app.db.database import SessionLocal, engine
+from app.db.models import User
+from app.utils.hashing import hash_password
 from app.routers import (
     auth, admin, customer, provider, order, review, contact, message
 )
@@ -33,6 +35,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+DEFAULT_ADMIN_USERNAME = "admin@fixify"
+DEFAULT_ADMIN_EMAIL = "admin@fixify"
+DEFAULT_ADMIN_PASSWORD = "rehman@16@"
 
 def _initialize_database_with_retry() -> None:
     """Create tables with retry to tolerate transient cloud DB startup failures."""
@@ -65,9 +71,46 @@ def _initialize_database_with_retry() -> None:
             time.sleep(delay_seconds)
 
 
+def _seed_default_admin() -> None:
+    """Create or refresh the default admin account."""
+    db = SessionLocal()
+    try:
+        admin_user = db.query(User).filter(
+            (User.username == DEFAULT_ADMIN_USERNAME) | (User.email == DEFAULT_ADMIN_EMAIL)
+        ).first()
+
+        password_hash = hash_password(DEFAULT_ADMIN_PASSWORD)
+
+        if admin_user:
+            admin_user.username = DEFAULT_ADMIN_USERNAME
+            admin_user.email = DEFAULT_ADMIN_EMAIL
+            admin_user.password_hash = password_hash
+            admin_user.role = "admin"
+            admin_user.token_version = 0
+            logger.info("Default admin account refreshed: %s", DEFAULT_ADMIN_USERNAME)
+        else:
+            db.add(User(
+                username=DEFAULT_ADMIN_USERNAME,
+                email=DEFAULT_ADMIN_EMAIL,
+                password_hash=password_hash,
+                role="admin",
+                token_version=0,
+            ))
+            logger.info("Default admin account created: %s", DEFAULT_ADMIN_USERNAME)
+
+        db.commit()
+    except Exception:
+        db.rollback()
+        logger.exception("Failed to seed default admin account")
+        raise
+    finally:
+        db.close()
+
+
 @app.on_event("startup")
 def startup_event() -> None:
     _initialize_database_with_retry()
+    _seed_default_admin()
 
 # Error handlers
 @app.exception_handler(RequestValidationError)
